@@ -1,4 +1,3 @@
-from selenium.common.exceptions import NoSuchElementException
 from .locators import BasePageLocators
 
 
@@ -28,11 +27,3 @@ class BasePage:
         new_window = self.browser.window_handles[1]
         old_window = self.browser.window_handles[0]
         self.browser.switch_to.window(new_window)
-
-    def is_element_present(self, how, what):
-        """find element on page"""
-        try:
-            self.browser.find_element(how, what)
-        except NoSuchElementException:
-            return False
-        return True
