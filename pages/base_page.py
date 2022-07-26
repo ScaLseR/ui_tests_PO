@@ -1,5 +1,5 @@
+from selenium.common.exceptions import NoSuchElementException
 from .locators import BasePageLocators
-import time
 
 
 class BasePage:
@@ -22,4 +22,17 @@ class BasePage:
         """go to yandex disk page"""
         link = self.browser.find_element(*BasePageLocators.DISK_LINK)
         link.click()
-        time.sleep(300)
+
+    def go_to_new_window(self):
+        """go to new window in browser"""
+        new_window = self.browser.window_handles[1]
+        old_window = self.browser.window_handles[0]
+        self.browser.switch_to.window(new_window)
+
+    def is_element_present(self, how, what):
+        """find element on page"""
+        try:
+            self.browser.find_element(how, what)
+        except NoSuchElementException:
+            return False
+        return True

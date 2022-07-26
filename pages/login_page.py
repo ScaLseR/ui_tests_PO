@@ -18,3 +18,4 @@ class LoginPage(BasePage):
         inp_pass.send_keys(password)
         btn_log_2 = self.browser.find_element(*LoginPageLocators.BTN_LOG)
         btn_log_2.click()
+
