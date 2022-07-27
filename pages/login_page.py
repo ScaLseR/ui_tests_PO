@@ -1,6 +1,5 @@
 from .base_page import BasePage
 from .locators import LoginPageLocators
-from time import sleep
 
 
 class LoginPage(BasePage):

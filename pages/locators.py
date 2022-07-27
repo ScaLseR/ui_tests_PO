@@ -1,3 +1,4 @@
+"""locators for all class"""
 from selenium.webdriver.common.by import By
 
 
@@ -22,4 +23,7 @@ class DiskPageLocators:
                 '.Button2.Button2_view_action.Button2_size_m.confirmation-dialog_'
                 '_button.confirmation-dialog__button_submit ')
     BTN_ALL = (By.CSS_SELECTOR, '[aria-label="Ещё"]')
-    BTN_COPY_MENU_ALL = (By.CSS_SELECTOR, '.Menu-Text')
+    BTN_COPY_MENU_ALL = (By.CSS_SELECTOR,
+                         '.Menu-Item.Menu-Item_type_menuitem.groupable-buttons_'
+                         '_menu-button.groupable-buttons__menu-button_action_copy ')
+

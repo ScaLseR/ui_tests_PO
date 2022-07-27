@@ -2,18 +2,24 @@ from .base_page import BasePage
 from .locators import DiskPageLocators
 import time
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver import ActionChains
 
 
 class DiskPage(BasePage):
     """class for work with yandex disk page"""
 
+    def open_folder_in_disk(self, folder_name):
+        """opening folder with name = folder_name on disk"""
+        self.double_click_folder_on_disk(folder_name)
+        time.sleep(300)
+
     def copy_file_to_folder(self, file_name, folder_name):
+        """copy file name = file_name to folder name = folder_name """
         BasePage.go_to_new_window(self)
         self.click_file(file_name)
         self.click_btn_to_copy()
         self.click_to_folder_in_copy_menu(folder_name)
         self.click_btn_copy_in_copy_menu()
-        time.sleep(30)
 
     def is_element_present(self, how, what):
         """find element on page"""
@@ -24,33 +30,44 @@ class DiskPage(BasePage):
         return True
 
     def click_btn_to_copy(self):
-        print('self.is_element_present(*DiskPageLocators.BTN_TO_COPY_TOP_MENU)=====', self.is_element_present(*DiskPageLocators.BTN_TO_COPY_TOP_MENU))
-        if self.is_element_present(*DiskPageLocators.BTN_TO_COPY_TOP_MENU):
-            btn_to_copy = self.browser.find_element(*DiskPageLocators.BTN_TO_COPY_TOP_MENU)
+        """clicking button Copy"""
+        btn_to_copy = self.browser.find_element(*DiskPageLocators.BTN_TO_COPY_TOP_MENU)
+        if btn_to_copy.is_enabled() and btn_to_copy.is_displayed():
             btn_to_copy.click()
         else:
             self.click_btn_menu_all()
             self.click_btn_copy_menu_all()
 
     def click_file(self, file_name):
+        """one click left mouse button on file name = file_name """
         if not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
             time.sleep(3)
         file_to_click = self.browser.find_element(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]')
         file_to_click.click()
 
     def click_to_folder_in_copy_menu(self, folder_name):
+        """select folder name = folder_name in copy menu"""
         folder_to_click = self.browser.find_element(DiskPageLocators.FOLDER, f'[title="{folder_name}"]')
         folder_to_click.click()
 
+    def double_click_folder_on_disk(self, folder_name):
+        """opening folder name = folder_name on disk (double click left mouse button)"""
+        folder_to_click = self.browser.find_element(DiskPageLocators.FOLDER, f'[aria-label="{folder_name}"]')
+        action = ActionChains(self.browser)
+        action.double_click(folder_to_click).perform()
+
     def click_btn_copy_in_copy_menu(self):
+        """clicking button Copy in copy menu"""
         btn_copy = self.browser.find_element(*DiskPageLocators.BTN_COPY_IN_COPY_DIALOG)
         btn_copy.click()
 
     def click_btn_menu_all(self):
+        """open menu all (...)"""
         btn_all = self.browser.find_element(*DiskPageLocators.BTN_ALL)
         btn_all.click()
 
     def click_btn_copy_menu_all(self):
+        """clicking button Copy in menu all (...)"""
         btn_copy_all = self.browser.find_element(*DiskPageLocators.BTN_COPY_MENU_ALL)
         btn_copy_all.click()
 

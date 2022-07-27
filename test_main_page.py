@@ -4,6 +4,7 @@ from pages.disk_page import DiskPage
 
 
 def test_copy_file_to_folder(browser):
+    """test case"""
     page = MainPage(browser, 'http://yandex.ru')
     page.open()
     page.go_to_login_page()
@@ -12,3 +13,4 @@ def test_copy_file_to_folder(browser):
     login_page.go_to_disk_page()
     disk_page = DiskPage(browser, browser.current_url)
     disk_page.copy_file_to_folder('Файл для копирования', 'Новая папка')
+    disk_page.open_folder_in_disk('Новая папка')
