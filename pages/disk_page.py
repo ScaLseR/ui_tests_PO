@@ -1,6 +1,5 @@
 from .base_page import BasePage
 from .locators import DiskPageLocators
-import time
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 
@@ -39,8 +38,8 @@ class DiskPage(BasePage):
 
     def click_file(self, file_name):
         """one click left mouse button on file name = file_name """
-        if not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
-            time.sleep(3)
+        while not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
+            self.browser.implicitly_wait(1)
         file_to_click = self.browser.find_element(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]')
         file_to_click.click()
 
@@ -73,14 +72,34 @@ class DiskPage(BasePage):
     def delete_files_in_folder(self, file_name):
         """deleting all files in folder with name != file_name"""
         while not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
-            self.browser.implicitly_wait(5)
+            self.browser.implicitly_wait(1)
         count = self.count_files_in_folder()
         if count > 1:
-            files_name = self.browser.find_elements(*DiskPageLocators.FILES_NAMES_ALL)
-            print('files_name=====', files_name)
-        time.sleep(300)
+            names = self.get_files_names()
+            for name in names:
+                if name != file_name:
+                    self.delete_one_file(name)
 
     def count_files_in_folder(self):
         """count all files in folder"""
         files = self.browser.find_elements(*DiskPageLocators.FILES_ALL)
         return len(files)
+
+    def get_files_names(self):
+        """get all files names in folder"""
+        files = self.browser.find_elements(*DiskPageLocators.FILES_NAMES_ALL)
+        texts = [name.get_attribute("aria-label").split('.')[0] for name in files]
+        return texts
+
+    def delete_one_file(self, file_name):
+        """deleting one file with name = file name"""
+        self.click_file(file_name)
+        btn_delete = self.browser.find_element(*DiskPageLocators.BTN_DELETE)
+        btn_delete.click()
+        self.browser.implicitly_wait(1)
+
+    def get_file_name(self):
+        """get last one file name in folder"""
+        name = self.browser.find_element(*DiskPageLocators.FILES_NAMES_ALL)
+        text = name.get_attribute("aria-label").split('.')[0]
+        return text

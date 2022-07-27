@@ -29,4 +29,5 @@ class DiskPageLocators:
     FILES_ALL = (By.CSS_SELECTOR, '.listing-item.listing-item_theme_tile.listing-item_'
                                   'size_m.listing-item_type_file.js-prevent-deselect')
 
-    FILES_NAMES_ALL = (By.XPATH, '//aria-label')
+    FILES_NAMES_ALL = (By.CSS_SELECTOR, '.listing-item__title.listing-item__title_overflow_clamp')
+    BTN_DELETE = (By.CSS_SELECTOR, '[aria-label="Удалить"]')

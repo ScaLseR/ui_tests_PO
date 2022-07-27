@@ -22,4 +22,4 @@ def browser(request):
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")
     yield browser
-    #browser.quit()
+    browser.quit()
