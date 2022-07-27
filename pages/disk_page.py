@@ -1,3 +1,4 @@
+"""Disk Page Module"""
 from .base_page import BasePage
 from .locators import DiskPageLocators
 from selenium.common.exceptions import NoSuchElementException
@@ -38,19 +39,19 @@ class DiskPage(BasePage):
 
     def click_file(self, file_name):
         """one click left mouse button on file name = file_name """
-        while not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
+        while not self.is_element_present(DiskPageLocators.FILE_FOLDER, f'[aria-label^="{file_name}"]'):
             self.browser.implicitly_wait(1)
-        file_to_click = self.browser.find_element(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]')
+        file_to_click = self.browser.find_element(DiskPageLocators.FILE_FOLDER, f'[aria-label^="{file_name}"]')
         file_to_click.click()
 
     def click_to_folder_in_copy_menu(self, folder_name):
         """select folder name = folder_name in copy menu"""
-        folder_to_click = self.browser.find_element(DiskPageLocators.FOLDER, f'[title="{folder_name}"]')
+        folder_to_click = self.browser.find_element(DiskPageLocators.FILE_FOLDER, f'[title="{folder_name}"]')
         folder_to_click.click()
 
     def double_click_folder_on_disk(self, folder_name):
         """opening folder name = folder_name on disk (double click left mouse button)"""
-        folder_to_click = self.browser.find_element(DiskPageLocators.FOLDER, f'[aria-label="{folder_name}"]')
+        folder_to_click = self.browser.find_element(DiskPageLocators.FILE_FOLDER, f'[aria-label="{folder_name}"]')
         action = ActionChains(self.browser)
         action.double_click(folder_to_click).perform()
 
@@ -71,7 +72,7 @@ class DiskPage(BasePage):
 
     def delete_files_in_folder(self, file_name):
         """deleting all files in folder with name != file_name"""
-        while not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
+        while not self.is_element_present(DiskPageLocators.FILE_FOLDER, f'[aria-label^="{file_name}"]'):
             self.browser.implicitly_wait(1)
         count = self.count_files_in_folder()
         if count > 1:
@@ -103,3 +104,12 @@ class DiskPage(BasePage):
         name = self.browser.find_element(*DiskPageLocators.FILES_NAMES_ALL)
         text = name.get_attribute("aria-label").split('.')[0]
         return text
+
+    def logout(self):
+        """logout from account"""
+        while self.is_element_present(*DiskPageLocators.ALERT):
+            self.browser.implicitly_wait(1)
+        account = self.browser.find_element(*DiskPageLocators.ACCOUNT)
+        account.click()
+        btn_exit = self.browser.find_element(*DiskPageLocators.BTN_EXIT)
+        btn_exit.click()

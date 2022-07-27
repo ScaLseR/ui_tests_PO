@@ -1,3 +1,4 @@
+"""Login Page Module"""
 from .base_page import BasePage
 
 

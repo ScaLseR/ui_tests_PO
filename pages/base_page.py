@@ -1,3 +1,4 @@
+"""Base Page Module"""
 from .locators import BasePageLocators
 
 
@@ -25,5 +26,4 @@ class BasePage:
     def go_to_new_window(self):
         """go to new window in browser"""
         new_window = self.browser.window_handles[1]
-        old_window = self.browser.window_handles[0]
         self.browser.switch_to.window(new_window)

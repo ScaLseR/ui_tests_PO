@@ -1,3 +1,4 @@
+"""Login Page Module"""
 from .base_page import BasePage
 from .locators import LoginPageLocators
 
@@ -30,6 +31,5 @@ class LoginPage(BasePage):
 
     def enter_password(self, password):
         """entering password into field password"""
-
         inp_pass = self.browser.find_element(*LoginPageLocators.PASS)
         inp_pass.send_keys(password)
