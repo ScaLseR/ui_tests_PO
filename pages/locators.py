@@ -26,4 +26,7 @@ class DiskPageLocators:
     BTN_COPY_MENU_ALL = (By.CSS_SELECTOR,
                          '.Menu-Item.Menu-Item_type_menuitem.groupable-buttons_'
                          '_menu-button.groupable-buttons__menu-button_action_copy ')
+    FILES_ALL = (By.CSS_SELECTOR, '.listing-item.listing-item_theme_tile.listing-item_'
+                                  'size_m.listing-item_type_file.js-prevent-deselect')
 
+    FILES_NAMES_ALL = (By.XPATH, '//aria-label')

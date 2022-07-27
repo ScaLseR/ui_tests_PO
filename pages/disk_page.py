@@ -11,7 +11,6 @@ class DiskPage(BasePage):
     def open_folder_in_disk(self, folder_name):
         """opening folder with name = folder_name on disk"""
         self.double_click_folder_on_disk(folder_name)
-        time.sleep(300)
 
     def copy_file_to_folder(self, file_name, folder_name):
         """copy file name = file_name to folder name = folder_name """
@@ -71,3 +70,17 @@ class DiskPage(BasePage):
         btn_copy_all = self.browser.find_element(*DiskPageLocators.BTN_COPY_MENU_ALL)
         btn_copy_all.click()
 
+    def delete_files_in_folder(self, file_name):
+        """deleting all files in folder with name != file_name"""
+        while not self.is_element_present(DiskPageLocators.FILE, f'[aria-label^="{file_name}"]'):
+            self.browser.implicitly_wait(5)
+        count = self.count_files_in_folder()
+        if count > 1:
+            files_name = self.browser.find_elements(*DiskPageLocators.FILES_NAMES_ALL)
+            print('files_name=====', files_name)
+        time.sleep(300)
+
+    def count_files_in_folder(self):
+        """count all files in folder"""
+        files = self.browser.find_elements(*DiskPageLocators.FILES_ALL)
+        return len(files)
